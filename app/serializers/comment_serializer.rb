@@ -1,8 +1,6 @@
 class CommentSerializer < ActiveModel::Serializer
-  attributes :id, :body, :author_nickname, :post_id
+  attributes :id, :body, :author_nickname, :published_at, :post_id, :child_comments
 
-  # has_one :author
-  # has_one :post
   has_many :child_comments
 
   def author_nickname

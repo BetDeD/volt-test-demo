@@ -1,6 +1,6 @@
 class Api::V1::PostsController < ApplicationController
 
-  before_action :set_post, only: [:show]
+  before_action :set_post, only: [:show, :comments, :create_comment]
 
   # GET /posts
   # GET /posts.json
@@ -21,6 +21,24 @@ class Api::V1::PostsController < ApplicationController
   # GET /posts/1.json
   def show
     render json: @post
+  end
+
+  # GET /posts/1/comments
+  # GET /posts/1/comments.json
+  def comments
+    render json: @post.comments
+  end
+  # POST /comments
+
+  def create_comment
+    @comment = @post.comments.create(comment_params)
+    @comment.user_id = @current_user.id
+
+    if @comment.save
+      render json: @comment, status: :created
+    else
+      render json: @comment.errors, status: :unprocessable_entity
+    end
   end
 
   # POST /posts
@@ -44,5 +62,9 @@ class Api::V1::PostsController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def post_params
     params.permit(:title, :body, :published_at)
+  end
+
+  def comment_params
+    params.permit(:body, :comment_id)
   end
 end
