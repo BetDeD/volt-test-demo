@@ -22,10 +22,7 @@ module VoltTest
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.2
 
-    config.assets.compile = false
-    config.assets.initialize_on_precompile = false
-
-    config.autoload_paths << Rails.root.join('lib')
+    config.eager_load_paths << Rails.root.join('lib')
 
     config.api_only = true
     config.debug_exception_response_format = :api
